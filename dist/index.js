@@ -28120,19 +28120,19 @@ async function main() {
         const production = inputs.boolean("production");
         const cwd = inputs.string("working-directory");
         if (production) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info("building for production...");
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("building for production...");
         }
         else {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info("building...");
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("building...");
         }
         await build({ cwd, production });
     }
     catch (err) {
         if (err instanceof Error) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(err.message);
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(err.message);
             return;
         }
-        _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed("unknown error");
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed("unknown error");
     }
 }
 async function build(options) {
@@ -28143,9 +28143,9 @@ async function build(options) {
     }
     function write(data) {
         const str = data.toString();
-        _actions_core__WEBPACK_IMPORTED_MODULE_0___default().info(str);
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(str);
     }
-    await _actions_exec__WEBPACK_IMPORTED_MODULE_1___default().exec("vercel", args, {
+    await _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec("vercel", args, {
         cwd,
         listeners: {
             stdout: write,
@@ -28155,10 +28155,10 @@ async function build(options) {
 }
 const inputs = {
     string(name) {
-        return _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput(name);
+        return _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput(name);
     },
     boolean(name) {
-        const value = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput(name);
+        const value = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput(name);
         return value === "true" || value === "1";
     },
 };
