@@ -28132,17 +28132,7 @@ async function build(options) {
     if (production) {
         args.push("--prod");
     }
-    function write(data) {
-        const str = data.toString();
-        core.info(str);
-    }
-    await exec.exec("vercel", args, {
-        cwd,
-        listeners: {
-            stdout: write,
-            stderr: write,
-        },
-    });
+    await exec.exec("vercel", args, { cwd });
 }
 
 })();

@@ -30,16 +30,5 @@ async function build(options: BuildOptions) {
 		args.push("--prod")
 	}
 
-	function write(data: Buffer) {
-		const str = data.toString()
-		core.info(str)
-	}
-
-	await exec.exec("vercel", args, {
-		cwd,
-		listeners: {
-			stdout: write,
-			stderr: write,
-		},
-	})
+	await exec.exec("vercel", args, { cwd })
 }
