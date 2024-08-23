@@ -1,0 +1,14 @@
+name: Vercel Build
+description: Run a vercel build
+inputs:
+  production:
+    description: set to "true" to deploy a production build
+    required: true
+    default: 'false'
+  working-directory:
+    description: the working directory
+    required: false
+    default: '.'
+runs:
+  using: node20
+  main: dist/index.js
