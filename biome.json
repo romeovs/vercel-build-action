@@ -2,7 +2,7 @@
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
 		"maxSize": 20971520,
-		"ignore": ["./coverage"]
+		"ignore": ["./coverage", "./dist"]
 	},
 	"formatter": {
 		"indentStyle": "tab",
