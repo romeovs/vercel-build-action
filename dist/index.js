@@ -28081,6 +28081,8 @@ var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
 
+;// CONCATENATED MODULE: external "node:fs"
+const external_node_fs_namespaceObject = require("node:fs");
 // EXTERNAL MODULE: ./node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(9093);
 // EXTERNAL MODULE: ./node_modules/.pnpm/@actions+exec@1.1.1/node_modules/@actions/exec/lib/exec.js
@@ -28111,6 +28113,7 @@ async function run(fn) {
 }
 
 ;// CONCATENATED MODULE: ./src/index.ts
+
 
 
 
@@ -28152,9 +28155,22 @@ async function pull(options) {
     const { cwd, token, production, orgId, projectId } = options;
     const env = production ? "production" : "development";
     const args = ["pull", "--yes", "--token", token, "--environment", env];
+    if (await exists(`.vercel/.env.${env}.local`)) {
+        core.info(".vercel directory already exists, skipping pull");
+        return;
+    }
     core.exportVariable("VERCEL_ORG_ID", orgId);
     core.exportVariable("VERCEL_PROJECT_ID", projectId);
     await exec.exec("vercel", args, { cwd });
+}
+async function exists(path) {
+    try {
+        await external_node_fs_namespaceObject.promises.stat(path);
+        return true;
+    }
+    catch (error) {
+        return false;
+    }
 }
 
 })();

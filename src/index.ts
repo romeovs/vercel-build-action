@@ -1,3 +1,5 @@
+import { promises as fs } from "node:fs"
+
 import * as core from "@actions/core"
 import * as exec from "@actions/exec"
 
@@ -61,8 +63,22 @@ async function pull(options: PullOptions) {
 	const env = production ? "production" : "development"
 	const args = ["pull", "--yes", "--token", token, "--environment", env]
 
+	if (await exists(`.vercel/.env.${env}.local`)) {
+		core.info(".vercel directory already exists, skipping pull")
+		return
+	}
+
 	core.exportVariable("VERCEL_ORG_ID", orgId)
 	core.exportVariable("VERCEL_PROJECT_ID", projectId)
 
 	await exec.exec("vercel", args, { cwd })
+}
+
+async function exists(path: string) {
+	try {
+		await fs.stat(path)
+		return true
+	} catch (error) {
+		return false
+	}
 }
