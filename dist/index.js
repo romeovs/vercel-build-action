@@ -28087,11 +28087,11 @@ var core = __nccwpck_require__(9093);
 var exec = __nccwpck_require__(7775);
 ;// CONCATENATED MODULE: ./src/inputs.ts
 
-function string(name) {
-    return core.getInput(name);
+function string(name, required = false) {
+    return core.getInput(name, { required });
 }
-function inputs_boolean(name) {
-    const value = core.getInput(name);
+function inputs_boolean(name, required = false) {
+    const value = core.getInput(name, { required });
     return value === "true" || value === "1";
 }
 
@@ -28118,7 +28118,7 @@ async function run(fn) {
 run(async function main() {
     const production = inputs_boolean("production");
     const cwd = string("working-directory");
-    const token = string("vercel-token");
+    const token = string("vercel-token", true);
     if (production) {
         core.info("building for production...");
     }

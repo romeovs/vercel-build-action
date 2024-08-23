@@ -7,7 +7,7 @@ import { run } from "./run"
 run(async function main() {
 	const production = inputs.boolean("production")
 	const cwd = inputs.string("working-directory")
-	const token = inputs.string("vercel-token")
+	const token = inputs.string("vercel-token", true)
 
 	if (production) {
 		core.info("building for production...")
