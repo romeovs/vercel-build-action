@@ -28095,22 +28095,11 @@ function inputs_boolean(name) {
     return value === "true" || value === "1";
 }
 
-;// CONCATENATED MODULE: ./src/index.ts
+;// CONCATENATED MODULE: ./src/run.ts
 
-
-
-main();
-async function main() {
+async function run(fn) {
     try {
-        const production = inputs_boolean("production");
-        const cwd = string("working-directory");
-        if (production) {
-            core.info("building for production...");
-        }
-        else {
-            core.info("building...");
-        }
-        await build({ cwd, production });
+        await fn();
     }
     catch (err) {
         if (err instanceof Error) {
@@ -28120,6 +28109,23 @@ async function main() {
         core.setFailed("unknown error");
     }
 }
+
+;// CONCATENATED MODULE: ./src/index.ts
+
+
+
+
+run(async function main() {
+    const production = inputs_boolean("production");
+    const cwd = string("working-directory");
+    if (production) {
+        core.info("building for production...");
+    }
+    else {
+        core.info("building...");
+    }
+    await build({ cwd, production });
+});
 async function build(options) {
     const { production, cwd } = options;
     const args = [];

@@ -2,29 +2,20 @@ import * as core from "@actions/core"
 import * as exec from "@actions/exec"
 
 import * as inputs from "./inputs"
+import { run } from "./run"
 
-main()
+run(async function main() {
+	const production = inputs.boolean("production")
+	const cwd = inputs.string("working-directory")
 
-async function main() {
-	try {
-		const production = inputs.boolean("production")
-		const cwd = inputs.string("working-directory")
-
-		if (production) {
-			core.info("building for production...")
-		} else {
-			core.info("building...")
-		}
-
-		await build({ cwd, production })
-	} catch (err) {
-		if (err instanceof Error) {
-			core.setFailed(err.message)
-			return
-		}
-		core.setFailed("unknown error")
+	if (production) {
+		core.info("building for production...")
+	} else {
+		core.info("building...")
 	}
-}
+
+	await build({ cwd, production })
+})
 
 type BuildOptions = {
 	cwd: string
