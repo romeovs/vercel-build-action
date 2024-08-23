@@ -27,7 +27,7 @@ type BuildOptions = {
 async function build(options: BuildOptions) {
 	const { production, cwd, token } = options
 
-	const args: string[] = ["--token", token]
+	const args: string[] = ["build", "--token", token]
 	if (production) {
 		args.push("--prod")
 	}

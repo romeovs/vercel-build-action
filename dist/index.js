@@ -28129,7 +28129,7 @@ run(async function main() {
 });
 async function build(options) {
     const { production, cwd, token } = options;
-    const args = ["--token", token];
+    const args = ["build", "--token", token];
     if (production) {
         args.push("--prod");
     }
