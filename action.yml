@@ -9,7 +9,7 @@ inputs:
     description: the working directory
     required: false
     default: '.'
-  token:
+  vercel-token:
     description: the vercel token
     required: true
 runs:
