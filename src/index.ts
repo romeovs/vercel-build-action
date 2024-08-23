@@ -1,6 +1,8 @@
 import * as core from "@actions/core"
 import * as exec from "@actions/exec"
 
+import * as inputs from "./inputs"
+
 main()
 
 async function main() {
@@ -49,14 +51,4 @@ async function build(options: BuildOptions) {
 			stderr: write,
 		},
 	})
-}
-
-const inputs = {
-	string(name: string) {
-		return core.getInput(name)
-	},
-	boolean(name: string) {
-		const value = core.getInput(name)
-		return value === "true" || value === "1"
-	},
 }

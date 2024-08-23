@@ -28058,35 +28058,6 @@ module.exports = parseParams
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -28107,32 +28078,46 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(9093);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_exec__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7775);
-/* harmony import */ var _actions_exec__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_exec__WEBPACK_IMPORTED_MODULE_1__);
+
+// EXTERNAL MODULE: ./node_modules/.pnpm/@actions+core@1.10.1/node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(9093);
+// EXTERNAL MODULE: ./node_modules/.pnpm/@actions+exec@1.1.1/node_modules/@actions/exec/lib/exec.js
+var exec = __nccwpck_require__(7775);
+;// CONCATENATED MODULE: ./src/inputs.ts
+
+function string(name) {
+    return core.getInput(name);
+}
+function inputs_boolean(name) {
+    const value = core.getInput(name);
+    return value === "true" || value === "1";
+}
+
+;// CONCATENATED MODULE: ./src/index.ts
+
 
 
 main();
 async function main() {
     try {
-        const production = inputs.boolean("production");
-        const cwd = inputs.string("working-directory");
+        const production = inputs_boolean("production");
+        const cwd = string("working-directory");
         if (production) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("building for production...");
+            core.info("building for production...");
         }
         else {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info("building...");
+            core.info("building...");
         }
         await build({ cwd, production });
     }
     catch (err) {
         if (err instanceof Error) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(err.message);
+            core.setFailed(err.message);
             return;
         }
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed("unknown error");
+        core.setFailed("unknown error");
     }
 }
 async function build(options) {
@@ -28143,9 +28128,9 @@ async function build(options) {
     }
     function write(data) {
         const str = data.toString();
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(str);
+        core.info(str);
     }
-    await _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec("vercel", args, {
+    await exec.exec("vercel", args, {
         cwd,
         listeners: {
             stdout: write,
@@ -28153,15 +28138,6 @@ async function build(options) {
         },
     });
 }
-const inputs = {
-    string(name) {
-        return _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput(name);
-    },
-    boolean(name) {
-        const value = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput(name);
-        return value === "true" || value === "1";
-    },
-};
 
 })();
 
