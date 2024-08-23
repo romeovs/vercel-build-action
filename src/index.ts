@@ -10,9 +10,9 @@ run(async function main() {
 	const token = inputs.string("vercel-token", true)
 
 	if (production) {
-		core.info("building for production...")
+		core.info("Building for production...")
 	} else {
-		core.info("building...")
+		core.info("Building for development...")
 	}
 
 	await build({ cwd, production, token })
