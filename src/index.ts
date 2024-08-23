@@ -8,6 +8,8 @@ run(async function main() {
 	const production = inputs.boolean("production")
 	const cwd = inputs.string("working-directory")
 	const token = inputs.string("vercel-token", true)
+	const orgId = inputs.string("vercel-org-id", true)
+	const projectId = inputs.string("vercel-project-id", true)
 
 	if (production) {
 		core.info("Building for production...")
@@ -15,7 +17,18 @@ run(async function main() {
 		core.info("Building for development...")
 	}
 
-	await build({ cwd, production, token })
+	await pull({
+		cwd,
+		production,
+		token,
+		orgId,
+		projectId,
+	})
+	await build({
+		cwd,
+		production,
+		token,
+	})
 })
 
 type BuildOptions = {
@@ -31,6 +44,25 @@ async function build(options: BuildOptions) {
 	if (production) {
 		args.push("--prod")
 	}
+
+	await exec.exec("vercel", args, { cwd })
+}
+
+type PullOptions = {
+	cwd: string
+	production: boolean
+	token: string
+	orgId: string
+	projectId: string
+}
+
+async function pull(options: PullOptions) {
+	const { cwd, token, production, orgId, projectId } = options
+	const env = production ? "production" : "development"
+	const args = ["pull", "--yes", "--token", token, "--environment", env]
+
+	core.exportVariable("VERCEL_ORG_ID", orgId)
+	core.exportVariable("VERCEL_PROJECT_ID", projectId)
 
 	await exec.exec("vercel", args, { cwd })
 }

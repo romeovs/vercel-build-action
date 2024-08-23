@@ -12,6 +12,12 @@ inputs:
   vercel-token:
     description: the vercel token
     required: true
+  vercel-org-id:
+    description: the vercel organization id
+    required: true
+  vercel-project-id:
+    description: the vercel project id
+    required: true
 runs:
   using: node20
   main: dist/index.js

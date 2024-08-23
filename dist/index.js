@@ -28119,13 +28119,26 @@ run(async function main() {
     const production = inputs_boolean("production");
     const cwd = string("working-directory");
     const token = string("vercel-token", true);
+    const orgId = string("vercel-org-id", true);
+    const projectId = string("vercel-project-id", true);
     if (production) {
         core.info("Building for production...");
     }
     else {
         core.info("Building for development...");
     }
-    await build({ cwd, production, token });
+    await pull({
+        cwd,
+        production,
+        token,
+        orgId,
+        projectId,
+    });
+    await build({
+        cwd,
+        production,
+        token,
+    });
 });
 async function build(options) {
     const { production, cwd, token } = options;
@@ -28133,6 +28146,14 @@ async function build(options) {
     if (production) {
         args.push("--prod");
     }
+    await exec.exec("vercel", args, { cwd });
+}
+async function pull(options) {
+    const { cwd, token, production, orgId, projectId } = options;
+    const env = production ? "production" : "development";
+    const args = ["pull", "--yes", "--token", token, "--environment", env];
+    core.exportVariable("VERCEL_ORG_ID", orgId);
+    core.exportVariable("VERCEL_PROJECT_ID", projectId);
     await exec.exec("vercel", args, { cwd });
 }
 
