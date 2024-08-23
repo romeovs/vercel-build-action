@@ -7,6 +7,7 @@ import { run } from "./run"
 run(async function main() {
 	const production = inputs.boolean("production")
 	const cwd = inputs.string("working-directory")
+	const token = inputs.string("vercel-token")
 
 	if (production) {
 		core.info("building for production...")
@@ -14,18 +15,19 @@ run(async function main() {
 		core.info("building...")
 	}
 
-	await build({ cwd, production })
+	await build({ cwd, production, token })
 })
 
 type BuildOptions = {
 	cwd: string
 	production: boolean
+	token: string
 }
 
 async function build(options: BuildOptions) {
-	const { production, cwd } = options
+	const { production, cwd, token } = options
 
-	const args: string[] = []
+	const args: string[] = ["--token", token]
 	if (production) {
 		args.push("--prod")
 	}

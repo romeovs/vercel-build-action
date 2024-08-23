@@ -28118,17 +28118,18 @@ async function run(fn) {
 run(async function main() {
     const production = inputs_boolean("production");
     const cwd = string("working-directory");
+    const token = string("vercel-token");
     if (production) {
         core.info("building for production...");
     }
     else {
         core.info("building...");
     }
-    await build({ cwd, production });
+    await build({ cwd, production, token });
 });
 async function build(options) {
-    const { production, cwd } = options;
-    const args = [];
+    const { production, cwd, token } = options;
+    const args = ["--token", token];
     if (production) {
         args.push("--prod");
     }

@@ -9,6 +9,9 @@ inputs:
     description: the working directory
     required: false
     default: '.'
+  token:
+    description: the vercel token
+    required: true
 runs:
   using: node20
   main: dist/index.js
